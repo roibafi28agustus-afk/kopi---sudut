@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kopi Sudut</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=Playfair+Display:wght@600&display=swap');
+
+    :root {
+      --green: #12382F;
+      --cream: #F7F4EC;
+      --white: #FFFFFF;
+      --brown: #8A674F;
+      --green-light: #1a4f42;
+      --green-hover: #0e2b24;
+      --text-dark: #1a1a1a;
+      --text-muted: #6b6b6b;
+      --border: #e8e4d9;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--cream);
+      color: var(--text-dark);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── PAGES ─── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      background-color: var(--green);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--white);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .nav-link {
+      color: rgba(255,255,255,0.75);
+      font-size: 14.5px;
+      font-weight: 400;
+      cursor: pointer;
+      transition: color 0.2s;
+      letter-spacing: 0.2px;
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--white);
+    }
+
+    .btn-primary {
+      background-color: var(--white);
+      color: var(--green);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 9px 22px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.15s;
+      letter-spacing: 0.2px;
+    }
+
+    .btn-primary:hover {
+      background-color: #f0ede4;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: var(--green);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 28px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.2px;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--green-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--green);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 28px;
+      border-radius: 8px;
+      border: 2px solid var(--green);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-outline:hover {
+      background-color: var(--green);
+      color: var(--white);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all 0.25s;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      background-color: var(--green);
+      padding: 16px 24px 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .mobile-menu.open { display: block; }
+
+    .mobile-menu button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      color: rgba(255,255,255,0.8);
+      font-size: 15px;
+      font-weight: 400;
+      padding: 12px 0;
+      background: none;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .mobile-menu button:last-of-type { border-bottom: none; }
+    .mobile-menu .btn-primary { width: 100%; margin-top: 16px; text-align: center; }
+
+    /* ─── CONTAINER ─── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ─── SECTION HEADING ─── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brown);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 600;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .section-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-top: 10px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background-color: var(--cream);
+      padding: 72px 0 80px;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(18,56,47,0.08);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    .hero-headline {
+      font-size: clamp(32px, 4.5vw, 52px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      color: var(--text-dark);
+      margin-bottom: 20px;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 36px;
+      max-width: 380px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-image-wrap {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, #3d6b5c 0%, #12382f 50%, #0a2520 100%);
+      box-shadow: 0 24px 64px rgba(18,56,47,0.18);
+    }
+
+    .hero-image-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 60%, rgba(138,103,79,0.3) 0%, transparent 60%);
+      z-index: 1;
+    }
+
+    .hero-coffee-visual {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    /* SVG Coffee Cup Illustration */
+    .coffee-scene {
+      width: 200px;
+      opacity: 0.9;
+    }
+
+    .hero-image-tag {
+      position: absolute;
+      bottom: 28px;
+      left: 28px;
+      z-index: 3;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      padding: 14px 18px;
+      color: white;
+    }
+
+    .hero-image-tag .tag-label { font-size: 11px; opacity: 0.7; letter-spacing: 1px; text-transform: uppercase; }
+    .hero-image-tag .tag-value { font-size: 15px; font-weight: 600; margin-top: 2px; }
+
+    /* ─── PRODUCT CARDS ─── */
+    .products-section {
+      padding: 80px 0;
+      background-color: var(--cream);
+    }
+
+    .products-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+    }
+
+    .product-card-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+    }
+
+    .product-card-body {
+      padding: 18px 20px 20px;
+    }
+
+    .product-card-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 5px;
+    }
+
+    .product-card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+
+    .product-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .product-price {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .btn-wa {
+      background-color: #25D366;
+      color: white;
+      border: none;
+      border-radius: 7px;
+      padding: 7px 13px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-wa:hover { background-color: #1ebe5d; }
+
+    /* ─── CATEGORY TABS ─── */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 9px 22px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--green);
+      color: var(--white);
+      border-color: var(--green);
+    }
+
+    /* ─── MENU PAGE ─── */
+    .menu-page {
+      padding: 64px 0 80px;
+    }
+
+    .menu-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* ─── ABOUT PAGE ─── */
+    .about-section {
+      padding: 80px 0;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+      margin-bottom: 80px;
+    }
+
+    .about-image {
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      background: linear-gradient(145deg, #3d6b5c 0%, #12382f 60%, #0a2520 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      position: relative;
+      box-shadow: 0 24px 64px rgba(18,56,47,0.15);
+    }
+
+    .about-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 40% 50%, rgba(138,103,79,0.25) 0%, transparent 65%);
+    }
+
+    .about-content {}
+
+    .about-title {
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+
+    .about-para {
+      font-size: 15.5px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    /* ─── VALUES ─── */
+    .values-section {
+      border-top: 1px solid var(--border);
+      padding-top: 64px;
+    }
+
+    .values-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .value-card {
+      text-align: center;
+      padding: 36px 28px;
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .value-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(18,56,47,0.08);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .value-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .value-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background-color: var(--green);
+      color: rgba(255,255,255,0.85);
+      padding: 56px 0 32px;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .footer-brand-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+      max-width: 260px;
+    }
+
+    .footer-heading {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 18px;
+    }
+
+    .footer-link {
+      display: block;
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: color 0.2s;
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .footer-link:hover { color: var(--white); }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .footer-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 24px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      border: none;
+    }
+
+    .social-btn:hover { background: rgba(255,255,255,0.2); }
+
+    /* ─── DIVIDERS ─── */
+    .section-divider {
+      width: 48px;
+      height: 3px;
+      background-color: var(--brown);
+      border-radius: 2px;
+      margin-top: 16px;
+    }
+
+    /* ─── CATEGORY LABELS ─── */
+    .category-label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      margin-top: 48px;
+    }
+
+    .category-label:first-child { margin-top: 0; }
+
+    .category-label-text {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      white-space: nowrap;
+    }
+
+    .category-label-line {
+      flex: 1;
+      height: 1px;
+      background-color: var(--border);
+    }
+
+    /* ─── COLOR SWATCHES FOR PRODUCT IMAGES ─── */
+    .img-espresso { background: linear-gradient(145deg, #3d2814 0%, #1a0f08 100%); }
+    .img-latte { background: linear-gradient(145deg, #c8a87a 0%, #8a5c3a 100%); }
+    .img-matcha { background: linear-gradient(145deg, #6b9e6e 0%, #3a6b3d 100%); }
+    .img-cold { background: linear-gradient(145deg, #5c7fa8 0%, #2c4f78 100%); }
+    .img-americano { background: linear-gradient(145deg, #4a2c1a 0%, #1a0a00 100%); }
+    .img-cappuccino { background: linear-gradient(145deg, #c99a6c 0%, #7a4f2a 100%); }
+    .img-yuzu { background: linear-gradient(145deg, #e8c84a 0%, #b89020 100%); }
+    .img-taro { background: linear-gradient(145deg, #9b7db5 0%, #6b4d8a 100%); }
+    .img-chocolate { background: linear-gradient(145deg, #7b3f1e 0%, #4a1f08 100%); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .footer-inner > div:first-child { grid-column: 1 / -1; }
+      .hero-inner { gap: 40px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-inner > .btn-primary { display: none !important; }
+      .hamburger { display: flex; }
+
+      .hero { padding: 48px 0 56px; }
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .hero-image-wrap { order: -1; aspect-ratio: 16/9; max-height: 320px; border-radius: 16px; }
+      .hero-sub { max-width: 100%; }
+
+      .products-section { padding: 56px 0; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .products-header { flex-direction: column; align-items: flex-start; }
+
+      .menu-page { padding: 48px 0 64px; }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-bottom: 56px;
+      }
+      .about-image { aspect-ratio: 16/9; border-radius: 16px; font-size: 56px; }
+
+      .values-grid { grid-template-columns: 1fr; gap: 16px; }
+
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .footer-brand-desc { max-width: 100%; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-headline { font-size: 28px; }
+      .products-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .menu-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .product-card-body { padding: 14px 14px 16px; }
+      .values-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .btn-secondary, .btn-outline { width: 100%; text-align: center; }
+      .container { padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ NAV ═══════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" onclick="showPage('home')">
+      <div class="nav-logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+          <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+          <line x1="6" y1="2" x2="6" y2="4"/>
+          <line x1="10" y1="2" x2="10" y2="4"/>
+          <line x1="14" y1="2" x2="14" y2="4"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">Kopi Sudut</span>
+    </a>
+
+    <div class="nav-links">
+      <button class="nav-link active" onclick="showPage('home')" id="nav-home">Beranda</button>
+      <button class="nav-link" onclick="showPage('menu')" id="nav-menu">Menu</button>
+      <button class="nav-link" onclick="showPage('about')" id="nav-about">Tentang Kami</button>
+    </div>
+
+    <button class="btn-primary" onclick="orderWhatsApp()">Pesan Sekarang</button>
+
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button onclick="showPage('home'); toggleMobile()">Beranda</button>
+    <button onclick="showPage('menu'); toggleMobile()">Menu</button>
+    <button onclick="showPage('about'); toggleMobile()">Tentang Kami</button>
+    <button class="btn-primary" onclick="orderWhatsApp()">Pesan Sekarang</button>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════ HOME PAGE ══════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="hero-badge">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="var(--green)">
+              <circle cx="6" cy="6" r="5"/>
+            </svg>
+            Buka Setiap Hari · 07.00 – 22.00
+          </div>
+
+          <h1 class="hero-headline">
+            Teman Terbaik untuk Setiap Aktivitasmu
+          </h1>
+
+          <p class="hero-sub">
+            Nikmati kopi pilihan yang diseduh dengan cermat dari biji kopi terbaik Nusantara. Hangat, autentik, dan selalu ada untukmu.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn-secondary" onclick="showPage('menu')">Lihat Menu</button>
+            <button class="btn-outline" onclick="orderWhatsApp()">Pesan via WhatsApp</button>
+          </div>
+        </div>
+
+        <div class="hero-image-wrap">
+          <div class="hero-coffee-visual">
+            <!-- Illustrated coffee scene SVG -->
+            <svg class="coffee-scene" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Saucer -->
+              <ellipse cx="100" cy="195" rx="65" ry="12" fill="rgba(255,255,255,0.12)"/>
+              <!-- Cup body -->
+              <path d="M55 130 Q50 190 100 195 Q150 190 145 130 Z" fill="rgba(247,244,236,0.15)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+              <!-- Handle -->
+              <path d="M145 145 Q168 145 168 162 Q168 178 145 178" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="6" stroke-linecap="round"/>
+              <!-- Coffee surface -->
+              <ellipse cx="100" cy="130" rx="45" ry="10" fill="rgba(138,103,79,0.6)"/>
+              <!-- Latte art swirl -->
+              <path d="M88 128 Q100 122 112 128" stroke="rgba(247,244,236,0.7)" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M84 132 Q100 124 116 132" stroke="rgba(247,244,236,0.45)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <!-- Steam wisps -->
+              <path d="M85 115 Q82 108 85 102 Q88 96 85 90" stroke="rgba(255,255,255,0.3)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+              <path d="M100 110 Q97 103 100 97 Q103 91 100 85" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+              <path d="M115 115 Q112 108 115 102 Q118 96 115 90" stroke="rgba(255,255,255,0.3)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+              <!-- Beans scattered -->
+              <ellipse cx="60" cy="75" rx="9" ry="5" transform="rotate(-25 60 75)" fill="rgba(138,103,79,0.5)"/>
+              <line x1="60" y1="71" x2="60" y2="79" stroke="rgba(0,0,0,0.2)" stroke-width="1" transform="rotate(-25 60 75)"/>
+              <ellipse cx="140" cy="68" rx="9" ry="5" transform="rotate(20 140 68)" fill="rgba(138,103,79,0.4)"/>
+              <line x1="140" y1="64" x2="140" y2="72" stroke="rgba(0,0,0,0.2)" stroke-width="1" transform="rotate(20 140 68)"/>
+              <ellipse cx="148" cy="88" rx="7" ry="4" transform="rotate(-10 148 88)" fill="rgba(138,103,79,0.35)"/>
+            </svg>
+          </div>
+
+          <div class="hero-image-tag">
+            <div class="tag-label">Menu Pilihan</div>
+            <div class="tag-value">Kopi Susu Gula Aren</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PRODUCTS -->
+  <section class="products-section">
+    <div class="container">
+      <div class="products-header">
+        <div>
+          <p class="section-label">Menu Favorit</p>
+          <h2 class="section-title">Yang Paling Banyak Dipesan</h2>
+          <div class="section-divider"></div>
+        </div>
+        <button class="btn-outline" onclick="showPage('menu')">Lihat Semua Menu</button>
+      </div>
+
+      <div class="products-grid">
+        <!-- Card 1 -->
+        <div class="product-card">
+          <div class="product-card-img img-latte">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="32" cy="50" rx="22" ry="5" fill="rgba(255,255,255,0.1)"/>
+              <path d="M12 30 Q10 50 32 52 Q54 50 52 30 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+              <ellipse cx="32" cy="30" rx="20" ry="5" fill="rgba(247,228,196,0.5)"/>
+              <path d="M26 29 Q32 26 38 29" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <path d="M52 35 Q60 35 60 42 Q60 49 52 49" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4" stroke-linecap="round"/>
+              <path d="M26 22 Q24 18 26 15" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <path d="M32 20 Q30 16 32 13" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <path d="M38 22 Q36 18 38 15" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Kopi Susu Gula Aren</div>
+            <div class="product-card-desc">Espresso dengan susu segar dan manisnya gula aren asli Nusantara.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 22.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Pesan
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="product-card">
+          <div class="product-card-img img-cold">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <rect x="20" y="18" width="24" height="38" rx="4" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+              <rect x="22" y="18" width="20" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
+              <circle cx="27" cy="30" r="2" fill="rgba(255,255,255,0.3)"/>
+              <circle cx="37" cy="28" r="1.5" fill="rgba(255,255,255,0.25)"/>
+              <circle cx="32" cy="34" r="2.5" fill="rgba(255,255,255,0.25)"/>
+              <circle cx="25" cy="38" r="1.5" fill="rgba(255,255,255,0.2)"/>
+              <circle cx="38" cy="37" r="2" fill="rgba(255,255,255,0.2)"/>
+              <line x1="32" y1="10" x2="32" y2="18" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Cold Brew Klasik</div>
+            <div class="product-card-desc">Kopi yang direndam selama 18 jam untuk rasa yang pekat dan halus.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 25.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Pesan
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="product-card">
+          <div class="product-card-img img-matcha">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <ellipse cx="32" cy="50" rx="20" ry="4" fill="rgba(255,255,255,0.1)"/>
+              <path d="M14 30 Q12 50 32 52 Q52 50 50 30 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+              <ellipse cx="32" cy="30" rx="18" ry="4.5" fill="rgba(180,220,160,0.5)"/>
+              <path d="M50 36 Q58 36 58 43 Q58 50 50 50" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="4" stroke-linecap="round"/>
+              <path d="M26 22 Q28 14 32 18 Q36 22 40 14" stroke="rgba(180,255,150,0.4)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Matcha Latte</div>
+            <div class="product-card-desc">Matcha premium Jepang dengan susu segar, lembut dan menyegarkan.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 28.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Pesan
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="product-card">
+          <div class="product-card-img img-espresso">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <ellipse cx="32" cy="50" rx="16" ry="3.5" fill="rgba(255,255,255,0.08)"/>
+              <path d="M16 28 Q15 50 32 52 Q49 50 48 28 Z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <ellipse cx="32" cy="28" rx="16" ry="4" fill="rgba(180,100,40,0.6)"/>
+              <path d="M48 34 Q56 34 56 41 Q56 47 48 47" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="4" stroke-linecap="round"/>
+              <path d="M28 20 Q26 14 28 10" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <path d="M36 22 Q34 16 36 12" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-name">Double Espresso</div>
+            <div class="product-card-desc">Dua shot espresso pekat dari biji Arabika pilihan Flores & Toraja.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 18.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Pesan
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand-name">Kopi Sudut</div>
+          <p class="footer-brand-desc">Kopi terbaik dari sudut kota favoritmu. Diseduh dengan cinta, disajikan dengan hangat.</p>
+          <div class="social-links">
+            <button class="social-btn" title="Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+            </button>
+            <button class="social-btn" title="TikTok">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.94a8.17 8.17 0 004.77 1.52V7.01a4.85 4.85 0 01-1-.32z"/></svg>
+            </button>
+            <button class="social-btn" title="WhatsApp" onclick="orderWhatsApp()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-heading">Navigasi</div>
+          <button class="footer-link" onclick="showPage('home')">Beranda</button>
+          <button class="footer-link" onclick="showPage('menu')">Menu</button>
+          <button class="footer-link" onclick="showPage('about')">Tentang Kami</button>
+          <button class="footer-link" onclick="orderWhatsApp()">Pesan Sekarang</button>
+        </div>
+
+        <div>
+          <div class="footer-heading">Hubungi Kami</div>
+          <div class="footer-contact-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:1px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Jl. Kopi No. 12, Bandung, Jawa Barat
+          </div>
+          <div class="footer-contact-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:1px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 9.4a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            +62 812-3456-7890
+          </div>
+          <div class="footer-contact-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:1px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Senin – Minggu, 07.00 – 22.00
+          </div>
+        </div>
+      </div>
+
+      <hr class="footer-divider" />
+
+      <div class="footer-bottom">
+        <span>© 2024 Kopi Sudut. Hak Cipta Dilindungi.</span>
+        <span>Dibuat dengan ☕ di Bandung</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- end home page -->
+
+
+<!-- ═══════════════════════════════ MENU PAGE ══════════════════════════════════ -->
+<div class="page" id="page-menu">
+
+  <section class="menu-page">
+    <div class="container">
+      <div class="menu-header">
+        <p class="section-label" style="text-align:center">Pilihan Minuman</p>
+        <h1 class="section-title" style="text-align:center">Menu Kami</h1>
+        <p class="section-subtitle" style="text-align:center; max-width:480px; margin: 10px auto 0">Semua minuman kami menggunakan biji kopi pilihan dan bahan-bahan segar tanpa pengawet.</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="filterMenu('all', this)">Semua</button>
+        <button class="tab-btn" onclick="filterMenu('kopi', this)">Kopi</button>
+        <button class="tab-btn" onclick="filterMenu('non-kopi', this)">Non-Kopi</button>
+      </div>
+
+      <!-- KOPI CATEGORY -->
+      <div class="category-label" data-cat="kopi">
+        <span class="category-label-text">Kopi</span>
+        <div class="category-label-line"></div>
+      </div>
+
+      <div class="menu-grid" id="kopi-grid">
+        <!-- Espresso -->
+        <div class="product-card" data-cat="kopi">
+          <div class="product-card-img img-espresso" style="font-size:44px">☕</div>
+          <div class="product-card-body">
+            <div class="product-card-name">Espresso</div>
+            <div class="product-card-desc">Single shot espresso pekat dari biji Arabika Flores.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 14.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pesan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Americano -->
+        <div class="product-card" data-cat="kopi">
+          <div class="product-card-img img-americano" style="font-size:44px">☕</div>
+          <div class="product-card-body">
+            <div class="product-card-name">Americano</div>
+            <div class="product-card-desc">Espresso dengan air panas, bersih dan ringan di tenggorokan.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 16.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pesan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cappuccino -->
+        <div class="product-card" data-cat="kopi">
+          <div class="product-card-img img-cappuccino" style="font-size:44px">☕</div>
+          <div class="product-card-body">
+            <div class="product-card-name">Cappuccino</div>
+            <div class="product-card-desc">Espresso dengan foam susu tebal dan lembut nan klasik.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 22.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pesan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kopi Susu Gula Aren -->
+        <div class="product-card" data-cat="kopi">
+          <div class="product-card-img img-latte" style="font-size:44px">☕</div>
+          <div class="product-card-body">
+            <div class="product-card-name">Kopi Susu Gula Aren</div>
+            <div class="product-card-desc">Favorit pelanggan! Manis alami gula aren dengan espresso segar.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 22.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pesan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cold Brew -->
+        <div class="product-card" data-cat="kopi">
+          <div class="product-card-img img-cold" style="font-size:44px">🧊</div>
+          <div class="product-card-body">
+            <div class="product-card-name">Cold Brew Klasik</div>
+            <div class="product-card-desc">Kopi rendam 18 jam, dingin dan pekat tanpa rasa asam berlebih.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 25.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pesan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kopi Toraja -->
+        <div class="product-card" data-cat="kopi">
+          <div class="product-card-img img-espresso" style="font-size:44px">☕</div>
+          <div class="product-card-body">
+            <div class="product-card-name">Kopi Tubruk Toraja</div>
+            <div class="product-card-desc">Tradisi terbaik, kopi bubuk asli Toraja diseduh langsung di cangkir.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 15.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pesan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NON-KOPI CATEGORY -->
+      <div class="category-label" data-cat="non-kopi" style="margin-top:56px">
+        <span class="category-label-text">Non-Kopi</span>
+        <div class="category-label-line"></div>
+      </div>
+
+      <div class="menu-grid" id="nonkopi-grid">
+        <!-- Matcha -->
+        <div class="product-card" data-cat="non-kopi">
+          <div class="product-card-img img-matcha" style="font-size:44px">🍵</div>
+          <div class="product-card-body">
+            <div class="product-card-name">Matcha Latte</div>
+            <div class="product-card-desc">Matcha premium grade A dari Jepang, creamy dan menyegarkan.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 28.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pesan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chocolate -->
+        <div class="product-card" data-cat="non-kopi">
+          <div class="product-card-img img-chocolate" style="font-size:44px">🍫</div>
+          <div class="product-card-body">
+            <div class="product-card-name">Coklat Susu Panas</div>
+            <div class="product-card-desc">Coklat premium dengan susu segar hangat, cocok untuk semua usia.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 20.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pesan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Yuzu -->
+        <div class="product-card" data-cat="non-kopi">
+          <div class="product-card-img img-yuzu" style="font-size:44px">🍋</div>
+          <div class="product-card-body">
+            <div class="product-card-name">Yuzu Lemonade</div>
+            <div class="product-card-desc">Segar dan asam manis dari jeruk Yuzu asli, dingin menyegarkan.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 24.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pesan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Taro -->
+        <div class="product-card" data-cat="non-kopi">
+          <div class="product-card-img img-taro" style="font-size:44px">🫙</div>
+          <div class="product-card-body">
+            <div class="product-card-name">Taro Latte</div>
+            <div class="product-card-desc">Minuman lembayung berbahan talas asli, creamy dan unik.</div>
+            <div class="product-card-footer">
+              <span class="product-price">Rp 26.000</span>
+              <button class="btn-wa" onclick="orderWhatsApp()"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pesan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER (reuse) -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand-name">Kopi Sudut</div>
+          <p class="footer-brand-desc">Kopi terbaik dari sudut kota favoritmu. Diseduh dengan cinta, disajikan dengan hangat.</p>
+          <div class="social-links">
+            <button class="social-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg></button>
+            <button class="social-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.94a8.17 8.17 0 004.77 1.52V7.01a4.85 4.85 0 01-1-.32z"/></svg></button>
+            <button class="social-btn" onclick="orderWhatsApp()"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Navigasi</div>
+          <button class="footer-link" onclick="showPage('home')">Beranda</button>
+          <button class="footer-link" onclick="showPage('menu')">Menu</button>
+          <button class="footer-link" onclick="showPage('about')">Tentang Kami</button>
+        </div>
+        <div>
+          <div class="footer-heading">Hubungi Kami</div>
+          <div class="footer-contact-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Jl. Kopi No. 12, Bandung</div>
+          <div class="footer-contact-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 9.4a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+62 812-3456-7890</div>
+          <div class="footer-contact-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>07.00 – 22.00 Setiap Hari</div>
+        </div>
+      </div>
+      <hr class="footer-divider" />
+      <div class="footer-bottom">
+        <span>© 2024 Kopi Sudut. Hak Cipta Dilindungi.</span>
+        <span>Dibuat dengan ☕ di Bandung</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- end menu page -->
+
+
+<!-- ═══════════════════════════════ ABOUT PAGE ════════════════════════════════ -->
+<div class="page" id="page-about">
+
+  <section class="about-section">
+    <div class="container">
+      <div class="about-grid">
+        <!-- Image column -->
+        <div class="about-image">
+          <svg width="140" height="160" viewBox="0 0 140 160" fill="none" style="position:relative;z-index:1">
+            <!-- Simplified coffee shop interior illustration -->
+            <!-- Window frame -->
+            <rect x="10" y="20" width="50" height="60" rx="4" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+            <line x1="35" y1="20" x2="35" y2="80" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <line x1="10" y1="50" x2="60" y2="50" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <!-- Sunrays through window -->
+            <rect x="12" y="22" width="22" height="27" rx="2" fill="rgba(255,200,100,0.12)"/>
+            <rect x="37" y="22" width="21" height="27" rx="2" fill="rgba(255,200,100,0.08)"/>
+            <!-- Table -->
+            <rect x="5" y="118" width="130" height="8" rx="4" fill="rgba(138,103,79,0.5)"/>
+            <!-- Table leg -->
+            <rect x="60" y="126" width="20" height="20" rx="2" fill="rgba(138,103,79,0.35)"/>
+            <!-- Cups on table -->
+            <!-- Cup 1 -->
+            <path d="M20 100 Q18 118 30 120 Q42 118 40 100 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <ellipse cx="30" cy="100" rx="10" ry="2.5" fill="rgba(180,120,60,0.5)"/>
+            <!-- Cup 2 -->
+            <path d="M80 95 Q78 115 92 117 Q106 115 104 95 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+            <ellipse cx="92" cy="95" rx="12" ry="3" fill="rgba(180,120,60,0.4)"/>
+            <!-- Handle cup 2 -->
+            <path d="M104 102 Q112 102 112 108 Q112 114 104 114" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3" stroke-linecap="round"/>
+            <!-- Plant pot -->
+            <rect x="112" y="104" width="20" height="15" rx="3" fill="rgba(18,56,47,0.6)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+            <path d="M116 104 Q122 85 128 95" stroke="rgba(120,180,100,0.5)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M122 104 Q128 90 134 100" stroke="rgba(120,180,100,0.4)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <!-- Logo on wall -->
+            <circle cx="95" cy="50" r="18" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+            <text x="95" y="54" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="9" font-family="serif">KS</text>
+          </svg>
+        </div>
+
+        <!-- Content column -->
+        <div class="about-content">
+          <p class="section-label">Cerita Kami</p>
+          <h1 class="about-title">Tentang Kopi Sudut</h1>
+          <div class="section-divider" style="margin-bottom:28px"></div>
+
+          <p class="about-para">
+            Kopi Sudut lahir dari kecintaan yang sederhana: sebuah secangkir kopi yang hangat, diseduh dengan hati, di sudut kota yang tenang. Kami memulai perjalanan ini dengan satu tujuan — menghadirkan kopi berkualitas tinggi yang tetap ramah di kantong, agar setiap orang bisa menikmati momen terbaiknya.
+          </p>
+
+          <p class="about-para">
+            Setiap biji kopi yang kami gunakan dipilih langsung dari petani lokal terpercaya di Flores, Toraja, dan Aceh. Kami percaya bahwa kopi yang baik dimulai dari hubungan yang baik — dengan petani, dengan pelanggan, dan dengan secangkir kopi itu sendiri.
+          </p>
+
+          <div style="margin-top:36px; display:flex; gap:12px; flex-wrap:wrap;">
+            <button class="btn-secondary" onclick="showPage('menu')">Lihat Menu Kami</button>
+            <button class="btn-outline" onclick="orderWhatsApp()">Hubungi Kami</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VALUES -->
+      <div class="values-section">
+        <div class="values-title">Yang Kami Junjung Tinggi</div>
+        <div class="values-grid">
+          <div class="value-card">
+            <div class="value-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#12382F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div class="value-name">Kualitas</div>
+            <div class="value-desc">Biji kopi single origin pilihan, diseduh tepat setiap saat dengan standar barista profesional.</div>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#12382F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <div class="value-name">Harga Terjangkau</div>
+            <div class="value-desc">Kopi premium tak harus mahal. Kami percaya rasa terbaik layak dinikmati semua kalangan.</div>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#12382F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <div class="value-name">Pelayanan Ramah</div>
+            <div class="value-desc">Kami hadir bukan hanya untuk melayani, tapi untuk menyambut setiap pelanggan seperti teman lama.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand-name">Kopi Sudut</div>
+          <p class="footer-brand-desc">Kopi terbaik dari sudut kota favoritmu. Diseduh dengan cinta, disajikan dengan hangat.</p>
+          <div class="social-links">
+            <button class="social-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg></button>
+            <button class="social-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.94a8.17 8.17 0 004.77 1.52V7.01a4.85 4.85 0 01-1-.32z"/></svg></button>
+            <button class="social-btn" onclick="orderWhatsApp()"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Navigasi</div>
+          <button class="footer-link" onclick="showPage('home')">Beranda</button>
+          <button class="footer-link" onclick="showPage('menu')">Menu</button>
+          <button class="footer-link" onclick="showPage('about')">Tentang Kami</button>
+        </div>
+        <div>
+          <div class="footer-heading">Hubungi Kami</div>
+          <div class="footer-contact-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Jl. Kopi No. 12, Bandung</div>
+          <div class="footer-contact-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 9.4a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+62 812-3456-7890</div>
+          <div class="footer-contact-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>07.00 – 22.00 Setiap Hari</div>
+        </div>
+      </div>
+      <hr class="footer-divider" />
+      <div class="footer-bottom">
+        <span>© 2024 Kopi Sudut. Hak Cipta Dilindungi.</span>
+        <span>Dibuat dengan ☕ di Bandung</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- end about page -->
+
+
+<script>
+  // Page navigation
+  function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+
+    // Update nav active states
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    const navEl = document.getElementById('nav-' + page);
+    if (navEl) navEl.classList.add('active');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Mobile menu toggle
+  function toggleMobile() {
+    const btn = document.getElementById('hamburgerBtn');
+    const menu = document.getElementById('mobileMenu');
+    btn.classList.toggle('open');
+    menu.classList.toggle('open');
+  }
+
+  // Menu filter tabs
+  function filterMenu(cat, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const kopiGrid = document.getElementById('kopi-grid');
+    const nonKopiGrid = document.getElementById('nonkopi-grid');
+    const kopiLabel = document.querySelector('[data-cat="kopi"].category-label');
+    const nonKopiLabel = document.querySelector('[data-cat="non-kopi"].category-label');
+
+    if (cat === 'all') {
+      kopiGrid.style.display = '';
+      nonKopiGrid.style.display = '';
+      kopiLabel.style.display = '';
+      nonKopiLabel.style.display = '';
+    } else if (cat === 'kopi') {
+      kopiGrid.style.display = '';
+      nonKopiGrid.style.display = 'none';
+      kopiLabel.style.display = '';
+      nonKopiLabel.style.display = 'none';
+    } else {
+      kopiGrid.style.display = 'none';
+      nonKopiGrid.style.display = '';
+      kopiLabel.style.display = 'none';
+      nonKopiLabel.style.display = '';
+    }
+  }
+
+  // WhatsApp order
+  function orderWhatsApp() {
+    window.open('https://wa.me/6281234567890?text=Halo%20Kopi%20Sudut%2C%20saya%20ingin%20memesan.', '_blank');
+  }
+</script>
+
+</body>
+</html>
